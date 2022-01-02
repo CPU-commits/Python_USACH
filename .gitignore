@@ -1,0 +1,12 @@
+# Vitaul Env Python
+/venv
+
+#Pycache
+__pycache__
+
+#db
+db/
+
+#Input / Output
+input/
+output/
