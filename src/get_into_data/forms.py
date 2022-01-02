@@ -74,7 +74,7 @@ def __read_answers():
         print('Se han añadido las respuestas con éxito')
 
 def __validate_unique_name(name, forms_data):
-    unique = list(filter(lambda x: x['name'] == name), forms_data)
+    unique = list(filter(lambda x: x['name'] == name, forms_data))
     if len(unique) > 0:
         return False
     return True    
@@ -87,7 +87,7 @@ def __create_form():
         if len(form_name) > 31:
             print('El nombre debe tener máximo 31 caracteres') 
         else:
-            unique = __validate_unique_name(form_name)
+            unique = __validate_unique_name(form_name, forms_data)
             if unique == False:
                 print('El nombre indicado ya está registrado')
             else:
