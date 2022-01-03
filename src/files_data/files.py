@@ -45,6 +45,8 @@ def set_db():
         file_existence = __validate_dir_existence(f"db/{file}")
         if file_existence == False:
             __create_file(f"src/db/{file}", init_text)
+    __create_dir('output')
+    __create_dir('input')
 
 def create_excel_file():
     __create_dir('output')
