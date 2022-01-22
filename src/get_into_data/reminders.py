@@ -5,8 +5,14 @@ import datetime
 from utils import utils
 from historical import historical
 
+
+def isnum(n):
+    return utils.is_num(n)
+
+
 def __open_reminders(mode):
     return open('src/db/reminder.json', mode)
+
 
 def __get_data():
     file = __open_reminders('r')
@@ -14,21 +20,29 @@ def __get_data():
     file.close()
     return data
 
+
 def __print_instructions():
     print('\n Instrucciones: \n')
     print('Al momento de crear un recordatorio, estos van a ser almacenados')
-    print('Serán mostrados al ejecutar el programa y la fecha coincida la fecha indicada')
+    print(
+        'Serán mostrados al ejecutar el programa y la fecha '
+        'coincida la fecha indicada'
+    )
     print('Posterior a su recordatorio, serán completamente eliminados')
+
 
 def __show_reminder():
     reminders_data = __get_data()
     print(pd.DataFrame(reminders_data))
 
+
 def __validate_date():
+    # Validar fecha
     menu_open = True
     while menu_open:
         reminder_date = input('Fecha del recordatorio (Formato: YYYY/MM/DD): ')
         message = 'Fecha no válida'
+        # Descartar si no hay slash
         if '/' not in reminder_date:
             print(message)
         else:
@@ -36,21 +50,29 @@ def __validate_date():
             if len(split_date) != 3:
                 print(message)
             else:
-                if len(split_date[0]) != 4 or utils.is_num(split_date[0]) == False:
+                # Validar si son números la fecha
+                if len(split_date[0]) != 4 or isnum(split_date[0]) is False:
                     print(message)
-                elif len(split_date[1]) != 2 or utils.is_num(split_date[1]) == False:
+                elif len(split_date[1]) != 2 or isnum(split_date[1]) is False:
                     print(message)
-                elif len(split_date[2]) != 2 or utils.is_num(split_date[2]) == False:
+                elif len(split_date[2]) != 2 or isnum(split_date[2]) is False:
                     print(message)
                 else:
+                    # Validar enteros
                     try:
-                        datetime.datetime(int(split_date[0]), int(split_date[1]), int(split_date[2]))
+                        datetime.datetime(
+                            int(split_date[0]),
+                            int(split_date[1]),
+                            int(split_date[2])
+                        )
                         menu_open = False
                     except ValueError:
                         print(message)
     return reminder_date
 
+
 def __create_reminder():
+    # Crear recordatorio
     reminder_name = input('Nombre del recordatorio: ')
     reminder_description = input('Descripción del recordatorio: ')
     reminder_date = __validate_date()
@@ -62,8 +84,10 @@ def __create_reminder():
         'date': reminder_date,
     })
     json.dump(reminders_data, reminders_file)
+    # Se registra en el historial
     historical.historical('Insertar', 'Se inserta recordatorio')
     reminders_file.close()
+
 
 def reminders():
     menu_open = True

@@ -2,16 +2,20 @@ import pandas as pd
 import uuid
 import json
 
+
 from historical import historical
+
 
 def __open_groups(mode):
     return open('src/db/groups.json', mode)
+
 
 def get_data():
     file = __open_groups('r')
     data = json.load(file)
     file.close()
     return data
+
 
 def __format_group(groups_data):
     format_group = []
@@ -22,7 +26,9 @@ def __format_group(groups_data):
         })
     return format_group
 
+
 def select_group(groups_data):
+    # Función para seleccionar válidamente un grupo
     format_group = __format_group(groups_data)
     print(pd.DataFrame(format_group))
     menu_open = True
@@ -34,12 +40,15 @@ def select_group(groups_data):
             print('Seleccione un grupo válido')
     return int(selected_group)
 
+
 def get_students(groups_data):
     selected_group = select_group(groups_data)
     students_data = groups_data[selected_group]['students']
     return (students_data, selected_group)
 
+
 def __create_groups(groups_data, groups):
+    # Crear grupo
     course_name = input('Escriba el nombre del grupo: ')
     groups_data.append({
         'id': str(uuid.uuid4()),
@@ -50,7 +59,9 @@ def __create_groups(groups_data, groups):
     historical.historical('Insertar', 'Se inserta grupo')
     groups.close()
 
+
 def __create_student(groups_data, groups):
+    # Crear estudiante
     selected_group = select_group(groups_data)
     student_name = input('Escriba el nombre del estudiante: ')
     groups_data[selected_group]['students'].append({
@@ -60,6 +71,7 @@ def __create_student(groups_data, groups):
     json.dump(groups_data, groups)
     historical.historical('Insertar', 'Se inserta estudiante a grupo')
     groups.close()
+
 
 def groups():
     menu_open = True

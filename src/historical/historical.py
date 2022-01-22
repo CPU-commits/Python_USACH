@@ -2,8 +2,10 @@ from datetime import date
 import pandas as pd
 import json
 
+
 def __open_historical(mode):
     return open('src/db/historical.json', mode)
+
 
 def __get_data():
     file = __open_historical('r')
@@ -11,11 +13,14 @@ def __get_data():
     file.close()
     return data
 
+
 def get_historical():
     historical_data = __get_data()
     print(pd.DataFrame(historical_data))
 
+
 def historical(type, message):
+    # Función para registrar datos ingresados
     historical_data = __get_data()
     file = __open_historical('w')
     today = date.today()
