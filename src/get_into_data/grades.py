@@ -35,7 +35,7 @@ def __select_student(students_data):
 
 def __validate_keys_existence(key_group, key_student, grades_data):
     # Validar llaves
-    if grades_data[key_group]:
+    if key_group in grades_data:
         if key_student not in grades_data[key_group]['students_grades']:
             grades_data[key_group]['students_grades'][key_student] = []
     else:

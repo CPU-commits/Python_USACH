@@ -49,7 +49,7 @@ def calculator():
                     print('2) Terminar')
                     option = input('Seleccione una opción: ')
                     if option == '1':
-                        __n2andoperator(number1)
+                        number1 = __n2andoperator(number1)
                     elif option == '2':
                         menu_open = False
                         operation_open = False
